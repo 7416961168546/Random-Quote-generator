@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-10/css/all.min.css" integrity="sha512-Pv1WJMqAtVgNNct5vhq+4cgkKinKpV1jCwSWD4am9CjwxsJSCkLWKcE/ZBqHnEE1mHs01c8B0GMvcn/pQ/yrog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="/codingraja/style.css">
+	<title>Document</title>
+</head>
+<body>
+	<div class="container">
+		<div id="box">
+			<div class="text">
+			</div>
+			<div class="author">
+			</div>
+			<div class="button">
+				<button id="prebut">Previous<i class="fas fa-arrow-circle-left fa-2x"></i></button>
+				<button id="nextbut">Next<i class="fas fa-arrow-circle-right fa-2x"></i></button>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	let nextbut=document.querySelector("#nextbut");
+	let prebut=document.querySelector("#prebut");
+	let text=document.querySelector(".text");
+	let author=document.querySelector(".author");
+	let no,rem;
+	const newQuotes=()=>{
+		no=rem;
+		rem=Math.floor(Math.random()*100);
+		fetch("https://type.fit/api/quotes").then((res)=> res.json())
+		.then((data)=>{
+			text.innerHTML=`<sup><i class="fas fa-quote-left"></i></sup> ${data[rem].text}<sup><i class="fas fa-quote-right"></i></sup>` ;
+			data[rem].author==null ? author.innerHTML="-Unknown" : author.innerHTML=`-${data[rem].author}`;
+		}).catch((error)=>console.log(error));
+	}
+	const preQuotes=()=>{
+		fetch("https://type.fit/api/quotes").then((res)=> res.json())
+		.then((data)=>{
+			text.innerHTML=`<sup><i class="fas fa-quote-left"></i></sup> ${data[no].text}<sup><i class="fas fa-quote-right"></i></sup>` ;
+			data[no].author==null ? author.innerHTML="-Unknown" : author.innerHTML=`-${data[no].author}`;
+		}).catch((error)=>console.log(error));
+	}
+	nextbut.addEventListener("click",newQuotes);
+	prebut.addEventListener("click",preQuotes)
+	newQuotes();
+
+</script>
+</html>
